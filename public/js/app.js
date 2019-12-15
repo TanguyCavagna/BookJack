@@ -1,5 +1,8 @@
 $(document).ready(() => {
     registerSW();
+
+    Notification.requestPermission((status) => {});
+
     $('#login').click(login);
 
     $('#test').click(() => {
