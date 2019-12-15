@@ -1,9 +1,10 @@
 $(document).ready(() => {
     registerSW();
-});
+    $('#login').click(login);
 
-$('#test').click(() => {
-    showNotification();
+    $('#test').click(() => {
+        showNotification();
+    });
 });
 
 /**
@@ -18,11 +19,6 @@ async function registerSW() {
         }
     }
 }
-
-
-$(document).ready(function() {
-    $('#login').click(login);
-});
 
 /**
  * Login with ajax
