@@ -1,0 +1,11 @@
+{
+    "name": "BookJack",
+    "short_name": "BookJack",
+    "start_url": "./public/",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "A book list app",
+    "icons": [
+        
+    ]
+}
