@@ -46,7 +46,6 @@ function login(event) {
 
     // processing
     if (username.length == 0) {
-
         $("#username").css("border-color", "red");
         return;
     } else {
@@ -54,31 +53,13 @@ function login(event) {
     }
 
     if (password.length == 0) {
-
         $("#password").css("border-color", "red");
         return;
     } else {
         $("#password").css("border-color", "");
     }
 
-    $.ajax({
-        method: "post",
-        url: "../../App/Api/login.php",
-        data: { "username": username, "password": password },
-        dataType: "json",
-
-        success: (data) => {
-            switch (data.ReturnCode) {
-                case 0: // no error
-                    window.location = "../index.php"
-                    break;
-                case 1:
-
-                    break;
-                case 2:
-
-                    break;    
-            }
-        }
-    });
+    get_data("../../App/Api/login.php", (data) => {
+        window.location = "../index.php";
+    }, { "username": username, "password": password }, false);
 }
