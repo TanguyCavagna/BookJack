@@ -18,3 +18,27 @@ async function registerSW() {
         }
     }
 }
+
+
+$(document).ready(function() {
+    $('#login').click(login);
+});
+
+/**
+ * Login with ajax
+ * @param {*} event 
+ */
+function login(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    // intialisation
+    var username = $("username").val();
+    var password = $("password").val();
+
+    // processing
+    if (username.length == 0) {
+        
+    }
+}
