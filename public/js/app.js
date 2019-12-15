@@ -5,6 +5,14 @@ $(document).ready(() => {
     $('#test').click(() => {
         showNotification();
     });
+
+    $('#user').click(() => {
+        get_data('../App/Api/getUser.php', gotUser, { 'id': 1 }, false);
+    });
+
+    function gotUser(data) {
+        console.log(data);
+    }
 });
 
 /**

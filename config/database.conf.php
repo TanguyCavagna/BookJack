@@ -1,3 +1,0 @@
-<?php
-// Constants
-define('', '');
