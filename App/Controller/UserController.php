@@ -23,6 +23,8 @@ class UserController extends EDatabaseController {
         $this->fieldEmail = "user_email";
         $this->fieldNickname = "user_nickname";
         $this->fieldProfilPicture = "user_profil_picture";
+        $this->fieldPassword = "user_password";
+        $this->fieldSalt = "user_salt";
     }
 
     /**
@@ -38,7 +40,7 @@ class UserController extends EDatabaseController {
         EX;
         
         $requestUser = $this::getInstance()->prepare($query);
-        $requestUser->bindparam(':userId', $userId, PDO::PARAM_INT);
+        $requestUser->bindParam(':userId', $userId, PDO::PARAM_INT);
         $requestUser->execute();
 
         $result = $requestUser->fetch(PDO::FETCH_ASSOC);
@@ -46,4 +48,81 @@ class UserController extends EDatabaseController {
         return new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]);
     }
 
+    public function LoginWithMail($userMail, $userPwd) {
+        $salt = $this->GetSaltByMail($userMail);
+
+        $pwd = hash("sha256", $userPwd. $salt);
+        
+        $query = <<<EX
+            SELECT `{$this->fieldEmail}`, `{$this->fieldNickname}`, `{$this->fieldProfilPicture}`
+            FROM `{$this->tableName}`
+            WHERE `{$this->fieldEmail}` = :userMail 
+            AND `{$this->fieldPassword}` = :userPwd
+        EX;
+
+        $requestLogin = $this::getInstance()->prepare($query);
+        $requestLogin->bindParam(':userMail', $userMail, PDO::PARAM_STR);
+        $requestLogin->bindParam(':userPwd', $pwd, PDO::PARAM_STR);
+        $requestLogin->execute();
+
+        $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
+
+        return count($result) > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+    }
+
+    public function LoginWithNickname($userNickname, $userPwd) {
+        $salt = $this->GetSaltByNickname($userNickname);
+
+        $pwd = hash("sha256", $userPwd. $salt);
+        
+        $query = <<<EX
+            SELECT `{$this->fieldEmail}`, `{$this->fieldNickname}`, `{$this->fieldProfilPicture}`
+            FROM `{$this->tableName}`
+            WHERE `{$this->fieldEmail}` = :userNickname 
+            AND `{$this->fieldPassword}` = :userPwd
+        EX;
+
+        $requestLogin = $this::getInstance()->prepare($query);
+        $requestLogin->bindParam(':userNickname', $userNickname, PDO::PARAM_STR);
+        $requestLogin->bindParam(':userPwd', $pwd, PDO::PARAM_STR);
+        $requestLogin->execute();
+
+        $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
+
+        return count($result) > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+    }
+
+    private function GetSaltByMail($userMail)
+    {
+        $query = <<<EX
+            SELECT `{$this->fieldSalt}`
+            FROM {$this->tableName}
+            WHERE {$this->fieldEmail} = :userMail
+        EX;
+        
+        $requestUser = $this::getInstance()->prepare($query);
+        $requestUser->bindParam(':userMail', $userMail, PDO::PARAM_STR);
+        $requestUser->execute();
+
+        $result = $requestUser->fetch(PDO::FETCH_ASSOC);
+
+        return $result[$this->fieldSalt];
+    }
+
+    private function GetSaltByNickname($userNickname)
+    {
+        $query = <<<EX
+            SELECT `{$this->fieldSalt}`
+            FROM {$this->tableName}
+            WHERE {$this->fieldNickname} = :userNickname
+        EX;
+        
+        $requestUser = $this::getInstance()->prepare($query);
+        $requestUser->bindParam(':userNickname', $userNickname, PDO::PARAM_STR);
+        $requestUser->execute();
+
+        $result = $requestUser->fetch(PDO::FETCH_ASSOC);
+
+        return $result[$this->fieldSalt];
+    }
 }
