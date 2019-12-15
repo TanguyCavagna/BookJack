@@ -1,4 +1,6 @@
 <?php
+require_once '../Controller/UserController.php';
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -10,7 +12,7 @@ $userController = new UserController();
 
 if (strlen($username) > 0 && strlen($password) > 0) {
     
-    $loggedUser = $userController->loginWithMail($username);
+    $loggedUser = $userController->loginWithMail($username, $password);
     
     if ($loggedUser !== null) {
         $_SESSION["loggedUser"] = $loggedUser;

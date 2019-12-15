@@ -33,8 +33,8 @@ function login(event) {
     }
 
     // intialisation
-    var username = $("username").val();
-    var password = $("password").val();
+    let username = $("#username").val();
+    let password = $("#password").val();
 
     // processing
     if (username.length == 0) {

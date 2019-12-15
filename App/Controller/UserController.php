@@ -48,6 +48,14 @@ class UserController extends EDatabaseController {
         return new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]);
     }
 
+    /**
+     * Log the user with his mail
+     *
+     * @param  string $userMail
+     * @param  string $userPwd
+     *
+     * @return User || null
+     */
     public function LoginWithMail($userMail, $userPwd) {
         $salt = $this->GetSaltByMail($userMail);
 
@@ -70,6 +78,14 @@ class UserController extends EDatabaseController {
         return count($result) > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
     }
 
+    /**
+     * Log th euser with his nickname
+     *
+     * @param  string $userNickname
+     * @param  string $userPwd
+     *
+     * @return User || null
+     */
     public function LoginWithNickname($userNickname, $userPwd) {
         $salt = $this->GetSaltByNickname($userNickname);
 
@@ -92,6 +108,13 @@ class UserController extends EDatabaseController {
         return count($result) > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
     }
 
+    /**
+     * Get the salt with the user mail
+     *
+     * @param  string $userMail
+     *
+     * @return string
+     */
     private function GetSaltByMail($userMail)
     {
         $query = <<<EX
@@ -109,6 +132,13 @@ class UserController extends EDatabaseController {
         return $result[$this->fieldSalt];
     }
 
+    /**
+     * Get the salt with user nickname
+     *
+     * @param  string $userNickname
+     *
+     * @return string
+     */
     private function GetSaltByNickname($userNickname)
     {
         $query = <<<EX
