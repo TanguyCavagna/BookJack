@@ -4,6 +4,7 @@ $(document).ready(() => {
     Notification.requestPermission((status) => {});
 
     $('#login').click(login);
+    $('.errors').hide();
 
     $('#test').click(() => {
         showNotification();
@@ -39,6 +40,7 @@ function login(event) {
     // processing
     if (username.length == 0) {
         $("#username").css("border-color", "red");
+        $("#username").focus();
         return;
     } else {
         $("#username").css("border-color", "");
@@ -46,6 +48,7 @@ function login(event) {
 
     if (password.length == 0) {
         $("#password").css("border-color", "red");
+        $("#password").focus();
         return;
     } else {
         $("#password").css("border-color", "");
