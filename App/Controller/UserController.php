@@ -29,8 +29,8 @@ class UserController extends EDatabaseController {
 
     /**
      * Get the user by the id
-     * @param {int} $userId Id of the user
-     * @return {User} User found
+     * @param userId {string} Id of the user
+     * @return User
      */
     public function getUserById($userId) {
         $query = <<<EX
@@ -51,8 +51,8 @@ class UserController extends EDatabaseController {
     /**
      * Log the user with his mail
      *
-     * @param  string $userMail
-     * @param  string $userPwd
+     * @param userMail {string}
+     * @param userPwd {string}
      *
      * @return User || null
      */
@@ -81,8 +81,8 @@ class UserController extends EDatabaseController {
     /**
      * Log th euser with his nickname
      *
-     * @param  string $userNickname
-     * @param  string $userPwd
+     * @param userNickname {string}
+     * @param userPwd {string}
      *
      * @return User || null
      */
@@ -111,9 +111,9 @@ class UserController extends EDatabaseController {
     /**
      * Get the salt with the user mail
      *
-     * @param  string $userMail
+     * @param userMail {string}
      *
-     * @return string
+     * @return salt
      */
     private function GetSaltByMail($userMail)
     {
@@ -135,9 +135,9 @@ class UserController extends EDatabaseController {
     /**
      * Get the salt with user nickname
      *
-     * @param  string $userNickname
+     * @param userNickname {string}
      *
-     * @return string
+     * @return salt
      */
     private function GetSaltByNickname($userNickname)
     {
