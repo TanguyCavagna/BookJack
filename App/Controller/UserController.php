@@ -108,7 +108,7 @@ class UserController extends EDatabaseController {
 
         $result = $requestUser->fetch(PDO::FETCH_ASSOC);
 
-        return $result[$this->fieldSalt];
+        return $result !== false ? $result[$this->fieldSalt] : null;
     }
 
     /**
@@ -132,6 +132,6 @@ class UserController extends EDatabaseController {
 
         $result = $requestUser->fetch(PDO::FETCH_ASSOC);
 
-        return $result[$this->fieldSalt];
+        return $result !== false ? $result[$this->fieldSalt] : null;
     }
 }
