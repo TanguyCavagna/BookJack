@@ -79,7 +79,7 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Log th euser with his nickname
+     * Log the user with his nickname
      *
      * @param userNickname {string}
      * @param userPwd {string}
@@ -94,7 +94,7 @@ class UserController extends EDatabaseController {
         $query = <<<EX
             SELECT `{$this->fieldEmail}`, `{$this->fieldNickname}`, `{$this->fieldProfilPicture}`
             FROM `{$this->tableName}`
-            WHERE `{$this->fieldEmail}` = :userNickname 
+            WHERE `{$this->fieldNickname}` = :userNickname 
             AND `{$this->fieldPassword}` = :userPwd
         EX;
 
@@ -133,7 +133,7 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Get the salt with user nickname
+     * Get the salt with the user nickname
      *
      * @param userNickname {string}
      *

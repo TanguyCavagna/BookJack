@@ -55,6 +55,6 @@ function login(event) {
     }
 
     get_data("../../App/Api/login.php", (data) => {
-        window.location = "../index.php";
+        window.location = "../public/index.php";
     }, { "username": username, "password": password }, false);
 }
