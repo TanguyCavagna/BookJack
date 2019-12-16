@@ -15,6 +15,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+CREATE DATABASE IF NOT EXISTS `book-jack`;
+USE `book-jack`;
+
 --
 -- Table structure for table `author`
 --
@@ -209,25 +212,25 @@ CREATE TABLE `novel_has_novel_genre` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `table1`
+-- Table structure for table `read`
 --
 
-DROP TABLE IF EXISTS `table1`;
+DROP TABLE IF EXISTS `read`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `table1` (
+CREATE TABLE `read` (
   `user_user_id` int(11) NOT NULL,
   `manga_manga_id` varchar(45) NOT NULL,
   `comic_comic_id` varchar(45) NOT NULL,
   `novel_novel_id` varchar(45) NOT NULL,
-  KEY `fk_table1_user1_idx` (`user_user_id`),
-  KEY `fk_table1_manga1_idx` (`manga_manga_id`),
-  KEY `fk_table1_comic1_idx` (`comic_comic_id`),
-  KEY `fk_table1_novel1_idx` (`novel_novel_id`),
-  CONSTRAINT `fk_table1_comic1` FOREIGN KEY (`comic_comic_id`) REFERENCES `comic` (`comic_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_table1_manga1` FOREIGN KEY (`manga_manga_id`) REFERENCES `manga` (`manga_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_table1_novel1` FOREIGN KEY (`novel_novel_id`) REFERENCES `novel` (`novel_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_table1_user1` FOREIGN KEY (`user_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_read_user1_idx` (`user_user_id`),
+  KEY `fk_read_manga1_idx` (`manga_manga_id`),
+  KEY `fk_read_comic1_idx` (`comic_comic_id`),
+  KEY `fk_read_novel1_idx` (`novel_novel_id`),
+  CONSTRAINT `fk_read_comic1` FOREIGN KEY (`comic_comic_id`) REFERENCES `comic` (`comic_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_read_manga1` FOREIGN KEY (`manga_manga_id`) REFERENCES `manga` (`manga_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_read_novel1` FOREIGN KEY (`novel_novel_id`) REFERENCES `novel` (`novel_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_read_user1` FOREIGN KEY (`user_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
