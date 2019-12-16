@@ -1,7 +1,7 @@
 $(document).ready(() => {
     registerSW();
 
-    Notification.requestPermission((status) => {});
+    Notification.requestPermission((status) => { });
 
     $('#login').click(login);
     $('.errors').hide();
@@ -9,6 +9,8 @@ $(document).ready(() => {
     $('#test').click(() => {
         showNotification();
     });
+
+    $('.alert').delay(2000).fadeOut(3000);
 });
 
 /**

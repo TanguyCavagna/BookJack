@@ -28,27 +28,6 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Get the user by the id
-     * @param userId {string} Id of the user
-     * @return User
-     */
-    public function getUserById($userId) {
-        $query = <<<EX
-            SELECT `{$this->fieldEmail}`, `{$this->fieldNickname}`, `{$this->fieldProfilPicture}`
-            FROM {$this->tableName}
-            WHERE {$this->fieldId} = :userId
-        EX;
-        
-        $requestUser = $this::getInstance()->prepare($query);
-        $requestUser->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $requestUser->execute();
-
-        $result = $requestUser->fetch(PDO::FETCH_ASSOC);
-
-        return new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]);
-    }
-
-    /**
      * Log the user with his mail
      *
      * @param userMail {string}
@@ -75,7 +54,7 @@ class UserController extends EDatabaseController {
 
         $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
 
-        return count($result) > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+        return $result !== false > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
     }
 
     /**
@@ -105,7 +84,7 @@ class UserController extends EDatabaseController {
 
         $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
 
-        return count($result) > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+        return $result !== false > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
     }
 
     /**

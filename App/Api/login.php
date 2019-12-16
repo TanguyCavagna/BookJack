@@ -11,15 +11,16 @@ $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 $userController = new UserController();
 
 if (strlen($username) > 0 && strlen($password) > 0) {
-    
+
     if (strpos($username, '@')) {
         $loggedUser = $userController->loginWithMail($username, $password);
     } else {
         $loggedUser = $userController->loginWithNickname($username, $password);
     }
-    
+
     if ($loggedUser !== null) {
         $_SESSION["loggedUser"] = $loggedUser;
+        $_SESSION['loggedIn'] = true;
 
         echo json_encode([
             'ReturnCode' => 0,
@@ -29,7 +30,7 @@ if (strlen($username) > 0 && strlen($password) > 0) {
     }
 
     echo json_encode([
-        'ReturnCode' => 1,
+        'ReturnCode' => 2,
         'Error' => "Username/Password invalid"
     ]);
 }

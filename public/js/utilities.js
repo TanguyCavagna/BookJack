@@ -47,6 +47,11 @@ function get_data(url, callback, params = {}, async) {
                     case 1: // Donnée récupéré vide
                         console.log(data.Error);
                         break;
+                    case 2: // login infos invalid
+                        $('#username').addClass('border-red-500');
+                        $('#password').addClass('border-red-500');
+                        $('.error-msg').removeClass('hidden');
+                        break;
                     default:
                         msg = data.Message;
                         break;
