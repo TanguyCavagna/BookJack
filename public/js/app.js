@@ -14,6 +14,8 @@ $(document).ready(() => {
     });
 
     $('.alert').delay(2000).fadeOut(3000);
+
+    console.log(window.location.pathname);
 });
 
 /**
@@ -59,8 +61,8 @@ function login(event) {
         $("#password").css("border-color", "");
     }
 
-    get_data("../../App/Api/login.php", (data) => {
-        window.location = "../public/index.php";
+    get_data("../App/Api/login.php", (data) => {
+        window.location = "./index.php";
     }, { "username": username, "password": password }, false);
 }
 

@@ -44,22 +44,24 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
     <div id="main" class="container mx-auto mt-5">
-        <!-- Block of information -->
-        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
-        <div id="info-container" class="w-4/5 mx-auto p-3 lg:flex">
-            <img class="lg:mr-5 md:mx-auto" src="./img/book-lover.svg" width="400px" draggable="false">
+        <?php if (!isset($_SESSION['loggedUser'])) : ?>
+            <!-- Block of information -->
+            <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+            <div id="info-container" class="w-4/5 mx-auto p-3 lg:flex">
+                <img class="lg:mr-5 md:mx-auto" src="./img/book-lover.svg" width="400px" draggable="false">
 
-            <div id="info" class="lg:w-6/12 md:w-full flex flex-col justify-around pl-4">
-                <h2 class="text-3xl text-black text-left font-bold">Avec BookJack, vous pouvez faire un inventaire de toutes vos lectures.</h2>
+                <div id="info" class="lg:w-6/12 md:w-full flex flex-col justify-around pl-4">
+                    <h2 class="text-3xl text-black text-left font-bold">Avec BookJack, vous pouvez faire un inventaire de toutes vos lectures.</h2>
 
-                <p class="font-normal">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex consectetur quisquam, asperiores facere libero est magnam porro illo modi quaerat ducimus. Magnam eligendi in hic ad nobis ratione necessitatibus accusantium.</p>
+                    <p class="font-normal">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex consectetur quisquam, asperiores facere libero est magnam porro illo modi quaerat ducimus. Magnam eligendi in hic ad nobis ratione necessitatibus accusantium.</p>
 
-                <button id="login" class="mt-5 bg-blue-500 hover:bg-blue-400 text-white uppercase font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Nous rejoindre !</button>
+                    <button id="login" class="mt-5 bg-blue-500 hover:bg-blue-400 text-white uppercase font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Nous rejoindre !</button>
+                </div>
             </div>
-        </div>
-        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
-
-        <button id="test" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Test notification</button>
+            <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+        <?php else: ?>
+            
+        <?php endif; ?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
