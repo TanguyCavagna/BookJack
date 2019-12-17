@@ -238,9 +238,14 @@ class UserController extends EDatabaseController {
         EX;
         
         try {
-            //code...
+            $requestUpdate = $this::getInstance()->prepare($updateQuery);
+            $requestUpdate->bindParam(':userPassword', $userPassword);
+            $requestUpdate->bindParam(':userId', $userId);
+            $requestUpdate->execute();
+
+            return true;
         } catch (Exception $e) {
-            //throw $th;
+            return false;
         }
     }
 }
