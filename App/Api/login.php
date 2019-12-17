@@ -13,10 +13,13 @@ $userController = new UserController();
 if (strlen($username) > 0 && strlen($password) > 0) {
 
     if (strpos($username, '@')) {
-        $loggedUser = $userController->loginWithMail($username, $password);
+        //$loggedUser = $userController->loginWithMail($username, $password);
+        $loggedUser = $userController->Login(['userEmail' => $username, 'userPwd' => $password]);
     } else {
-        $loggedUser = $userController->loginWithNickname($username, $password);
+        //$loggedUser = $userController->loginWithNickname($username, $password);
+        $loggedUser = $userController->Login(['userNickname' => $username, 'userPwd' => $password]);
     }
+
 
     if ($loggedUser !== null) {
         $_SESSION["loggedUser"] = $loggedUser;

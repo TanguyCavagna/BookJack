@@ -27,35 +27,57 @@ class UserController extends EDatabaseController {
         $this->fieldSalt = "user_salt";
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
-     * Log the user with his mail
+     * Get the salt with the choosen field
+     * To use it, call this function with an associative array as argument like so:
+     *      "$this->GetSalt(['userId' => 2])" => to get salt with user id
+     *      "$this->GetSalt(['userEmail' => "awdwa@awd.com"])" => to get salt with user email
+     *      "$this->GetSalt(['userNickname' => "awddw"])" => to get salt with user nickname
      *
-     * @param userMail {string}
-     * @param userPwd {string}
+     * @param args {array} Associative array for the clause
      *
-     * @return User || null
+     * @return salt
      */
-    public function LoginWithMail($userMail, $userPwd) {
-        $salt = $this->GetSaltByMail($userMail);
+    private function GetSalt($args) {
+        $args += [
+            'userId' => null,
+            'userEmail' => null,
+            'userNickname' => null
+        ];
 
-        $pwd = hash("sha256", $userPwd. $salt);
-        
+        extract($args); // Extract the keys of the associative array has variables
+
+        $clauseField = "";
+        $clauseValue = "";
+        if ($userId !== null) {
+            $clauseField = $this->fieldId;
+            $clauseValue = $userId;
+        } else if ($userEmail !== null) {
+            $clauseField = $this->fieldEmail;
+            $clauseValue = $userEmail;
+        } else if ($userNickname !== null) {
+            $clauseField = $this->fieldNickname;
+            $clauseValue = $userNickname;
+        }
+
         $query = <<<EX
-            SELECT `{$this->fieldEmail}`, `{$this->fieldNickname}`, `{$this->fieldProfilPicture}`
-            FROM `{$this->tableName}`
-            WHERE `{$this->fieldEmail}` = :userMail 
-            AND `{$this->fieldPassword}` = :userPwd
+            SELECT `{$this->fieldSalt}`
+            FROM {$this->tableName}
+            WHERE {$clauseField} = :clauseValue
         EX;
+        
+        $requestUser = $this::getInstance()->prepare($query);
+        $requestUser->bindParam(':clauseValue', $clauseValue);
+        $requestUser->execute();
 
-        $requestLogin = $this::getInstance()->prepare($query);
-        $requestLogin->bindParam(':userMail', $userMail, PDO::PARAM_STR);
-        $requestLogin->bindParam(':userPwd', $pwd, PDO::PARAM_STR);
-        $requestLogin->execute();
+        $result = $requestUser->fetch(PDO::FETCH_ASSOC);
 
-        $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
-
-        return $result !== false > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+        return $result !== false ? $result[$this->fieldSalt] : null;
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * Log the user with his nickname
@@ -65,73 +87,160 @@ class UserController extends EDatabaseController {
      *
      * @return User || null
      */
-    public function LoginWithNickname($userNickname, $userPwd) {
-        $salt = $this->GetSaltByNickname($userNickname);
+    public function Login($args) {
+        $args += [
+            'userEmail' => null,
+            'userNickname' => null,
+            'userPwd' => null
+        ];
 
-        $pwd = hash("sha256", $userPwd. $salt);
+        extract($args);
+
+        $wayToLoginField = "";
+        $wayToLoginValue = "";
+        $salt = "";
+        if ($userEmail !== null) {
+            $salt = $this->GetSalt(['userEmail' => $userEmail]);
+            $wayToLoginValue = $userEmail;
+            $wayToLoginField = $this->fieldEmail;
+        } else if ($userNickname !== null) {
+            $salt = $this->GetSalt(['userNickname' => $userNickname]);
+            $wayToLoginValue = $userNickname;
+            $wayToLoginField = $this->fieldNickname;
+        } else {
+            return false;
+        }
+
+        if ($userPwd === null) {
+            return false;
+        }
+
+        $pwd = hash("sha256", $userPwd . $salt);
         
         $query = <<<EX
-            SELECT `{$this->fieldEmail}`, `{$this->fieldNickname}`, `{$this->fieldProfilPicture}`
+            SELECT `{$this->fieldId}`, `{$this->fieldEmail}`, `{$this->fieldNickname}`, `{$this->fieldProfilPicture}`
             FROM `{$this->tableName}`
-            WHERE `{$this->fieldNickname}` = :userNickname 
+            WHERE `{$wayToLoginField}` = :wayToConnectValue 
             AND `{$this->fieldPassword}` = :userPwd
         EX;
 
         $requestLogin = $this::getInstance()->prepare($query);
-        $requestLogin->bindParam(':userNickname', $userNickname, PDO::PARAM_STR);
+        $requestLogin->bindParam(':wayToConnectValue', $wayToLoginValue, PDO::PARAM_STR);
         $requestLogin->bindParam(':userPwd', $pwd, PDO::PARAM_STR);
         $requestLogin->execute();
 
         $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
 
-        return $result !== false > 0 ? new User($result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+        return $result !== false > 0 ? new User($result[$this->fieldId], $result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
     }
 
     /**
-     * Get the salt with the user mail
-     *
-     * @param userMail {string}
-     *
-     * @return salt
+     * Register a new user
+     * 
+     * @param userEmail {string} New email
+     * @param userNickname {string} New nickname
+     * @param userPassword {string} New password
+     * 
+     * @return registerState {bool}
      */
-    private function GetSaltByMail($userMail)
-    {
-        $query = <<<EX
-            SELECT `{$this->fieldSalt}`
-            FROM {$this->tableName}
-            WHERE {$this->fieldEmail} = :userMail
+    public function RegisterNewUser($userEmail, $userNickname, $userPassword) {
+        $registerQuery = <<<EX
+            INSERT INTO `{$this->tableName}`({$this->fieldEmail}, {$this->fieldNickname}, {$this->fieldPassword}, {$this->fieldSalt}, {$this->fieldProfilPicture})
+            VALUES(:userEmail, :userNickname, :userPassword, :userSalt, :userProfilPicture)
         EX;
-        
-        $requestUser = $this::getInstance()->prepare($query);
-        $requestUser->bindParam(':userMail', $userMail, PDO::PARAM_STR);
-        $requestUser->execute();
 
-        $result = $requestUser->fetch(PDO::FETCH_ASSOC);
+        $salt = hash('sha256', microtime());
+        $userPassword = hash('sha256', $userPassword . $salt);
+        $profilPicture = null;
 
-        return $result !== false ? $result[$this->fieldSalt] : null;
+        try {
+            $requestRegister = $this::getInstance()->prepare($registerQuery);
+            $requestRegister->bindParam(':userEmail', $userEmail);
+            $requestRegister->bindParam(':userNickname', $userNickname);
+            $requestRegister->bindParam(':userPassword', $userPassword);
+            $requestRegister->bindParam(':userSalt', $salt);
+            $requestRegister->bindParam(':userProfilPicture', $profilPicture);
+            $requestRegister->execute();
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
-     * Get the salt with the user nickname
-     *
-     * @param userNickname {string}
-     *
-     * @return salt
+     * Update the nickname by the user id
+     * 
+     * @param userId {int} Id of the user
+     * @param userNickname {string} New user nickname
+     * 
+     * @return updateState {bool}
      */
-    private function GetSaltByNickname($userNickname)
-    {
-        $query = <<<EX
-            SELECT `{$this->fieldSalt}`
-            FROM {$this->tableName}
-            WHERE {$this->fieldNickname} = :userNickname
+    public function UpdateNicknameById($userId, $userNickname) {
+        $updateQuery = <<<EX
+            UPDATE FROM `{$this->tableName}` 
+            SET `{$this->fieldNickname}` = :userNickname 
+            WHERE `{$this->fieldId}` = :userId
+        EX;
+
+        try {
+            $requestUpdate = $this::getInstance()->prepare($updateQuery);
+            $requestUpdate->bindParam(':userNickname', $userNickname);
+            $requestUpdate->bindParam(':userId', $userId);
+            $requestUpdate->execute();
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Update the email by the user id
+     * 
+     * @param userId {int} Id of the user
+     * @param userEmail {string} New user email
+     * 
+     * @return updateState {bool}
+     */
+    public function UpdateEmailById($userId, $userEmail) {
+        $updateQuery = <<<EX
+            UPDATE FROM `{$this->tableName}` 
+            SET `{$this->fieldEmail}` = :userEmail 
+            WHERE `{$this->fieldId}` = :userId
+        EX;
+
+        try {
+            $requestUpdate = $this::getInstance()->prepare($updateQuery);
+            $requestUpdate->bindParam(':userEmail', $userEmail);
+            $requestUpdate->bindParam(':userId', $userId);
+            $requestUpdate->execute();
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Update the password by the user id
+     * 
+     * @param userId {int} Id of the user
+     * @param userPassword {string} New user password
+     * 
+     * @return updateState {bool}
+     */
+    public function UpdatePasswordById($userId, $userPassword) {
+        $updateQuery = <<<EX
+            UPDATE FROM `{$this->tableName}` 
+            SET `{$this->fieldPassword}` = :userPassword
+            WHERE `{$this->fieldId}` = :userId
         EX;
         
-        $requestUser = $this::getInstance()->prepare($query);
-        $requestUser->bindParam(':userNickname', $userNickname, PDO::PARAM_STR);
-        $requestUser->execute();
-
-        $result = $requestUser->fetch(PDO::FETCH_ASSOC);
-
-        return $result !== false ? $result[$this->fieldSalt] : null;
+        try {
+            //code...
+        } catch (Exception $e) {
+            //throw $th;
+        }
     }
 }
