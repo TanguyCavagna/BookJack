@@ -1,7 +1,7 @@
 /**
  * @author Tanguy Cavagna
  * @file Fichier contenant la classe JikanJS. Créer le 28.10.2019
- * @version 1.0
+ * @version 1.1
  * 
  * @classdesc Cette classe permet d'utiliser l'API rest "Jikan.js" avec facilité. Chacune des méthodes retourne le JSON complet
  *            envoyé par "Jikan.js". Tout le parsing doit être fait après le retour des données
