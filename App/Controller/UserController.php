@@ -7,6 +7,7 @@
 
 // Requirements
 require_once __DIR__ . '/DatabaseController.php';
+require_once __DIR__ . '/LogController.php';
 require_once '../Model/User.php';
 
 /**
@@ -124,14 +125,21 @@ class UserController extends EDatabaseController {
             AND `{$this->fieldPassword}` = :userPwd
         EX;
 
-        $requestLogin = $this::getInstance()->prepare($query);
-        $requestLogin->bindParam(':wayToConnectValue', $wayToLoginValue, PDO::PARAM_STR);
-        $requestLogin->bindParam(':userPwd', $pwd, PDO::PARAM_STR);
-        $requestLogin->execute();
+        try {
+            $requestLogin = $this::getInstance()->prepare($query);
+            $requestLogin->bindParam(':wayToConnectValue', $wayToLoginValue, PDO::PARAM_STR);
+            $requestLogin->bindParam(':userPwd', $pwd, PDO::PARAM_STR);
+            $requestLogin->execute();
 
-        $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
+            $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
+            
+            return $result !== false > 0 ? new User($result[$this->fieldId], $result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+        } catch (PDOException $e) {
+            LogController::Error('Error while login', $e::getMessage());
 
-        return $result !== false > 0 ? new User($result[$this->fieldId], $result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
+            return null;
+        }
+
     }
 
     /**
@@ -163,7 +171,9 @@ class UserController extends EDatabaseController {
             $requestRegister->execute();
 
             return true;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
+            LogController::Error('Error while register a new user', $e::getMessage());
+
             return false;
         }
     }
@@ -190,7 +200,9 @@ class UserController extends EDatabaseController {
             $requestUpdate->execute();
 
             return true;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
+            LogController::Error('Error while updating nickname', $e::getMessage());
+
             return false;
         }
     }
@@ -217,7 +229,9 @@ class UserController extends EDatabaseController {
             $requestUpdate->execute();
 
             return true;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
+            LogController::Error('Error while updating email', $e::getMessage());
+
             return false;
         }
     }
@@ -244,7 +258,9 @@ class UserController extends EDatabaseController {
             $requestUpdate->execute();
 
             return true;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
+            LogController::Error('Error while updating password', $e::getMessage());
+
             return false;
         }
     }
