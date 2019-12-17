@@ -35,3 +35,51 @@ body {
 #info h2 {
     font-family: 'Abril Fatface', cursive;
 }
+
+#results .result {
+    position: relative;
+}
+
+#results .result .result-image {
+    width: 185px;
+    height: 265px;
+    object-fit: cover;
+}
+
+#results .result .title {
+    width: 185px;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(40, 110, 111, .7);
+    border-bottom-left-radius: .25rem;
+}
+
+#results .result .result-info-container {
+    border-top: solid 1px rgb(54, 154, 155);
+    border-bottom: solid 1px rgb(54, 154, 155);
+}
+
+#results .result .result-info .season {
+    border-top-right-radius: .25rem;
+    background-color: rgb(54, 154, 155);
+}
+
+#results .result .result-info .synopsis {
+    height: 11rem;
+}
+
+#results .result .result-info .genres {
+    height: 3.5rem;
+    border-bottom-right-radius: .25rem;
+    background-color: rgb(54, 154, 155);
+}
+
+#results .result .result-info .synopsis,
+#results .result .result-info .genres {
+    overflow: hidden;
+}
+
+#results .result .result-info .synopsis:hover,
+#results .result .result-info .genres:hover {
+    overflow-y: auto;
+}

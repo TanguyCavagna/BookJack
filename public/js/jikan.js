@@ -7,8 +7,6 @@
  *            envoyé par "Jikan.js". Tout le parsing doit être fait après le retour des données
  */
 class JikanJS {
-    MAX_INDEX = 10060;
-    
     /**
      * Constructeur par défaut
      */
@@ -39,11 +37,19 @@ class JikanJS {
     }
 
     /**
+     * Retourne un manga via son id
+     * @param {int} mangaId Id du manga en question
+     */
+    async getMangaById(mangaId) {
+        return await this._computeFetch("https://api.jikan.moe/v3/manga/" + mangaId);
+    }
+
+    /**
      * @private
      * Récupère un index aléatoire
      */
     _getRandomIndex() {
-        return Math.floor(Math.random() * MAX_INDEX);
+        return Math.floor(Math.random() * 10060);
     }
 
     /**

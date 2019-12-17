@@ -59,15 +59,59 @@ if (session_status() == PHP_SESSION_NONE) {
                 </div>
             </div>
             <!-- ~~~~~~~~~~~~~~~~~~~~ -->
-        <?php else: ?>
-            
+        <?php else : ?>
+            <!-- Search bar block -->
+            <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+            <div id="search-bar">
+                <div class="bg-transparent rounded px-8 pt-6 pb-8 mb-4">
+                    <div class="mb-4 flex justify-between">
+                        <!-- Select type of search -->
+                        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+                        <div class="inline-block relative w-32">
+                            <select id="search-type" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="manga">Manga</option>
+                                <option value="novel">Novel</option>
+                                <option value="comic">Comic</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+
+                        <!-- Search bar -->
+                        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+                        <input id="search-terms" class="shadow appearance-none border rounded w-3/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="search-terms" name="search-term" type="text" placeholder="Search on the web">
+                        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+
+                        <!-- Search button -->
+                        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+                        <button id="search" class="w-30 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                            Search
+                        </button>
+                        <button id="lucky-day" class="w-30 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                            Lucky ?
+                        </button>
+                        <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+                    </div>
+                </form>
+            </div>
+            <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+
+            <!-- Results block -->
+            <!-- ~~~~~~~~~~~~~~~~~~~~ -->
+            <div id="results" class="flex flex-wrap flex-row justify-between"></div>
+            <!-- ~~~~~~~~~~~~~~~~~~~~ -->
         <?php endif; ?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="./js/utilities.js"></script>
-    <script src="./js/app.js"></script>
     <script src="./js/notification.js"></script>
+    <script src="./js/jikan.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>
