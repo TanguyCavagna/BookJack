@@ -35,6 +35,8 @@ function search(event) {
         event.preventDefault();
     }
 
+    $('#results').empty();
+
     let searchTerms = $('#search-terms').val();
     let searchType = $('#search-type').val();
 
@@ -45,9 +47,13 @@ function search(event) {
         case 'manga':
             let jikan = new JikanJS();
 
-            jikan.getSearchResults(searchTerms, 'manga', 1).then((data) => {
+            jikan.getSearchResults(searchTerms, 'manga', 1)
+            .catch((error) => {  })
+            .then((data) => {
                 data.results.forEach((result) => {
-                    jikan.getMangaById(result.mal_id).then((final) => {
+                    jikan.getMangaById(result.mal_id)
+                    .catch((error) => {  })
+                    .then((final) => {
                         showSearchResults(final);
                     });
                 });
@@ -79,7 +85,9 @@ function lucky(event) {
         case 'manga':
             let jikan = new JikanJS();
 
-            jikan.getRandomManga().then((data) => {
+            jikan.getRandomManga()
+            .catch((error) => {  })
+            .then((data) => {
                 showSearchResults(data);
             });
             break;
@@ -97,6 +105,10 @@ function lucky(event) {
  * @param {array} results
  */
 function showSearchResults(result) {
+    if (typeof result === 'undefined') {
+        return;
+    }
+
     if (result.hasOwnProperty('errorNo')) {
         return;
     }
@@ -122,6 +134,9 @@ function showSearchResults(result) {
         let genres = result.genres;
         
         genres.forEach((genre) => {
+            if (genre.name == "Hentai") {
+                return;
+            }
             genresStr += genre.name + ", ";
         });
         

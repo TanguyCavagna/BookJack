@@ -64,10 +64,10 @@ if (session_status() == PHP_SESSION_NONE) {
             <!-- ~~~~~~~~~~~~~~~~~~~~ -->
             <div id="search-bar">
                 <div class="bg-transparent rounded px-8 pt-6 pb-8 mb-4">
-                    <div class="mb-4 flex justify-between">
+                    <div class="mb-4 flex xl:flex-row lg:flex-col md:flex-col sm:flex-col flex-col justify-between">
                         <!-- Select type of search -->
                         <!-- ~~~~~~~~~~~~~~~~~~~~ -->
-                        <div class="inline-block relative w-32">
+                        <div class="inline-block relative xl:w-32 xl:mb-0 lg:mb-3 sm:mb-3 mb-3">
                             <select id="search-type" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="manga">Manga</option>
                                 <option value="novel">Novel</option>
@@ -83,15 +83,15 @@ if (session_status() == PHP_SESSION_NONE) {
 
                         <!-- Search bar -->
                         <!-- ~~~~~~~~~~~~~~~~~~~~ -->
-                        <input id="search-terms" class="shadow appearance-none border rounded w-3/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="search-terms" name="search-term" type="text" placeholder="Search on the web">
+                        <input id="search-terms" class="shadow appearance-none border rounded xl:w-3/5 xl:mb-0 lg:mb-3 sm:mb-3 mb-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="search-terms" name="search-term" type="text" placeholder="Search on the web">
                         <!-- ~~~~~~~~~~~~~~~~~~~~ -->
 
                         <!-- Search button -->
                         <!-- ~~~~~~~~~~~~~~~~~~~~ -->
-                        <button id="search" class="w-30 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                        <button id="search" class="xl:w-30 xl:mb-0 lg:mb-3 sm:mb-3 mb-3 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
                             Search
                         </button>
-                        <button id="lucky-day" class="w-30 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                        <button id="lucky-day" class="xl:w-30 xl:mb-0 lg:mb-3 sm:mb-3 mb-3 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
                             Lucky ?
                         </button>
                         <!-- ~~~~~~~~~~~~~~~~~~~~ -->

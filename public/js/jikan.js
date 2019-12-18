@@ -33,7 +33,7 @@ class JikanJS {
      * @param {int} page Numéro de page
      */
     async getSearchResults(searchQuery, type, page) {
-        return await this._computeFetch("https://api.jikan.moe/v3/search/" + type + "?q=" + searchQuery + "&page=" + page + "&rated=r17"); // "&rated=r17" sert a filtrer les résultats
+        return await this._computeFetch("https://api.jikan.moe/v3/search/" + type + "?q=" + searchQuery + "&page=" + page + "&rated=pg13"); // "&rated=r17" sert a filtrer les résultats
     }
 
     /**
@@ -58,6 +58,9 @@ class JikanJS {
      */
     async _computeFetch(url) {
         return await fetch(url)
+        .catch((error) => {
+            return this._errorHandler(error.ErrorNo);
+        })
         .then((response) => {
             // Gestion des erreures (Va dans le 'catch' si une erreure est 'throw')
             if (!response.ok) {
@@ -70,9 +73,6 @@ class JikanJS {
         })
         .then((data) => {
             return data;
-        })
-        .catch((error) => {
-            return this._errorHandler(error.ErrorNo);
         });
     }
 
