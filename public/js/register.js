@@ -53,5 +53,5 @@ function register(event) {
 
     get_data("../App/Api/register.php", (data) => {
         window.location = "./login.php";
-    }, {}, false);
+    }, {"username":username, "mail":mail, "password":password, "verifyPassword":verifyPassword}, false);
 }
