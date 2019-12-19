@@ -162,6 +162,8 @@ class UserController extends EDatabaseController {
         $profilPicture = null;
 
         try {
+            $this::beginTransaction();
+
             $requestRegister = $this::getInstance()->prepare($registerQuery);
             $requestRegister->bindParam(':userEmail', $userEmail);
             $requestRegister->bindParam(':userNickname', $userNickname);
@@ -169,9 +171,11 @@ class UserController extends EDatabaseController {
             $requestRegister->bindParam(':userSalt', $salt);
             $requestRegister->bindParam(':userProfilPicture', $profilPicture);
             $requestRegister->execute();
-
+            
+            $requestRegister->commit();
             return true;
         } catch (PDOException $e) {
+            $requestRegister->rollBack();
             LogController::Error('Error while register a new user', $e::getMessage());
 
             return false;
@@ -194,13 +198,17 @@ class UserController extends EDatabaseController {
         EX;
 
         try {
+            $this::beginTransaction();
+
             $requestUpdate = $this::getInstance()->prepare($updateQuery);
             $requestUpdate->bindParam(':userNickname', $userNickname);
             $requestUpdate->bindParam(':userId', $userId);
             $requestUpdate->execute();
 
+            $requestUpdate->commit();
             return true;
         } catch (PDOException $e) {
+            $requestUpdate->rollBack();
             LogController::Error('Error while updating nickname', $e::getMessage());
 
             return false;
@@ -223,13 +231,17 @@ class UserController extends EDatabaseController {
         EX;
 
         try {
+            $this::beginTransaction();
+
             $requestUpdate = $this::getInstance()->prepare($updateQuery);
             $requestUpdate->bindParam(':userEmail', $userEmail);
             $requestUpdate->bindParam(':userId', $userId);
             $requestUpdate->execute();
 
+            $requestUpdate->commit();
             return true;
         } catch (PDOException $e) {
+            $requestUpdate->rollBack();
             LogController::Error('Error while updating email', $e::getMessage());
 
             return false;
@@ -252,13 +264,16 @@ class UserController extends EDatabaseController {
         EX;
         
         try {
+            $this::beginTransaction();
             $requestUpdate = $this::getInstance()->prepare($updateQuery);
             $requestUpdate->bindParam(':userPassword', $userPassword);
             $requestUpdate->bindParam(':userId', $userId);
             $requestUpdate->execute();
 
+            $requestUpdate->commit();
             return true;
         } catch (PDOException $e) {
+            $requestUpdate->rollBack();
             LogController::Error('Error while updating password', $e::getMessage());
 
             return false;
