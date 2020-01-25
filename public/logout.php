@@ -11,6 +11,6 @@ if (isset($_SESSION['loggedUser']) && !empty($_SESSION['loggedUser'])) {
     exit();
 }
 
-// Redirect back
+// Renvoie l'utilisateur sur la page précédente
 header('Location: ' . $_SERVER['HTTP_REFERER']);
 exit();

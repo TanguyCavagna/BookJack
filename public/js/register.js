@@ -4,7 +4,7 @@ $(document).ready(() => {
 });
 
 /**
- * Register with ajax
+ * Enregistrement avec AJAX
  * @param {*} event 
  */
 function register(event) {

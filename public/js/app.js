@@ -14,7 +14,7 @@ $(document).ready(() => {
 });
 
 /**
- * Register the service worker for the app
+ * Enregister le `service worker` pour l'application
  */
 async function registerSW() {
     if ('serviceWorker' in navigator) {
@@ -27,7 +27,7 @@ async function registerSW() {
 }
 
 /**
- * Search the user entry
+ * Recherche sur les différentes API la requête de l'utilisateur
  * @param {*} event 
  */
 function search(event) {
@@ -69,7 +69,7 @@ function search(event) {
 }
 
 /**
- * Pick a random book
+ * Récupère un livre aléatoire en fonction du type de libre choisis
  * @param {*} event 
  */
 function lucky(event) {
@@ -101,7 +101,7 @@ function lucky(event) {
 }
 
 /**
- * Show the search results
+ * Affiche les résultats obtenu
  * @param {array} results
  */
 function showSearchResults(result) {
@@ -171,6 +171,10 @@ function showSearchResults(result) {
     $('#results').append(element);
 }
 
+/**
+ * Formate la date
+ * @param {string} timestamp Date
+ */
 function formatDate(timestamp) {
     let ts = new Date(timestamp);
 
@@ -181,6 +185,10 @@ function formatDate(timestamp) {
     return month + " " + day + ", " + year;
 }
 
+/**
+ * Converti un mois 01-12 en abréviation
+ * @param {int} month Mois entre 01 et 12
+ */
 function monthToString(month) {
     let chr = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Sep', 'Oct', 'Nov', 'Dec' ];
 

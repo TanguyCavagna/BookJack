@@ -6,7 +6,7 @@ const CACHE_FILES = [
     '/BookJack/manifest.webmanifest'
 ];
 
-// Initialize the cache
+// Initialise le cache
 self.addEventListener('install', e => {
     console.log("[sw.js] Install event.");
     e.waitUntil(
@@ -17,23 +17,23 @@ self.addEventListener('install', e => {
     );
 });
 
-// Activate the service workers
+// Active le `service worker`
 self.addEventListener('activate', e => {
     self.clients.claim();
 });
 
-// Handle the notification click
+// Handle le clic sur les notifications
 self.addEventListener('notificationclick', function (e) {
     var notification = e.notification;
     var action = e.action;
 
-    if (action === 'close') { // click on the 'close' button
+    if (action === 'close') { // clic sur le bouton "close"
         console.log('Closed');
         notification.close();
-    } else if (action === 'explore') { // click on the 'explore' button
+    } else if (action === 'explore') { // clic sur le bouton "explore"
         console.log('Explored');
         notification.close();
-    } else { // click anywhere on the notification
+    } else { // clic n'importe où sur la notification
         notification.close();
     }
 });

@@ -1,5 +1,5 @@
 /**
- * Show a noitification
+ * Envoie une nouvelle notification
  */
 function showNotification() {
     if (Notification.permission == 'granted') {

@@ -4,7 +4,7 @@ $(document).ready(() => {
 });
 
 /**
- * Login with ajax
+ * Login avec AJAX
  * @param {*} event 
  */
 function login(event) {

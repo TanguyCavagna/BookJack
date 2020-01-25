@@ -139,7 +139,7 @@ class UserTest extends TestCase {
     // Providers
     //=========================================
     /**
-     * Data provider for the register function
+     * Data provider pour le register
      */
     public function newUserProvider(): array {
         return [
@@ -148,7 +148,7 @@ class UserTest extends TestCase {
     }
 
     /**
-     * Data provider for the login with email
+     * Data provider pour le login avec email
      */
     public function loginWithEmailProvider(): array {
         return [
@@ -157,7 +157,7 @@ class UserTest extends TestCase {
     }
 
     /**
-     * Data provider for the login with email
+     * Data provider pour le login avec nickname
      */
     public function loginWithNicknameProvider(): array {
         return [
@@ -166,7 +166,7 @@ class UserTest extends TestCase {
     }
 
     /**
-     * Data provider after having change the email
+     * Data provider pour le login apres modification de l'email
      */
     public function loginWithEmailAfterEmailChangedProvider(): array {
         return [
@@ -175,7 +175,7 @@ class UserTest extends TestCase {
     }
 
     /**
-     * Data provider after having change the email and the password
+     * Data provider pour le login apres modificaiton de l'email et du mot de passe
      */
     public function loginWithEmailAfterEmailAndPassChangedProvider(): array {
         return [

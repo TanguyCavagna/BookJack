@@ -2,7 +2,7 @@
 /**
  * @author tanguy.cvgn@gmail.com
  * @date 15.12.2019
- * @brief User controller
+ * @brief Controlleur de l'utilisateur
  */
 
 // Requirements
@@ -11,12 +11,12 @@ require_once __DIR__ . '/LogController.php';
 require_once __DIR__ . '/../Model/User.php';
 
 /**
- * Controll of the user
+ * Controlleur de l'utilisateur
  */
 class UserController extends EDatabaseController {
 
     /**
-     * Initialize all database field name and table name
+     * Initialise tous les champs de la table `user`
      */
     function __construct() {
         $this->tableName = "user";
@@ -31,15 +31,15 @@ class UserController extends EDatabaseController {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Get the salt with the choosen field
-     * To use it, call this function with an associative array as argument like so:
-     *      "$this->GetSalt(['userId' => 2])" => to get salt with user id
-     *      "$this->GetSalt(['userEmail' => "awdwa@awd.com"])" => to get salt with user email
-     *      "$this->GetSalt(['userNickname' => "awddw"])" => to get salt with user nickname
+     * Récupère le sel avec le champ de son choix
+     * Pour utiliser cette fontion, appelez la avec un tableau associatif comme suit:
+     *      "$this->GetSalt(['userId' => 1])" => Pour récupéré le sel avec l'id
+     *      "$this->GetSalt(['userEmail' => "john.doe@gmail.com"])" => Pour récupéré le sel avec l'email
+     *      "$this->GetSalt(['userNickname' => "JohnDoe"])" => Pour récupéré le sel avec le pseudo
      *
-     * @param args {array} Associative array for the clause
+     * @param array $args Tableau associtatif pour les différentes options de récupération de sel
      *
-     * @return salt
+     * @return string||null
      */
     private function GetSalt(array $args): ?string {
         $args += [
@@ -81,12 +81,11 @@ class UserController extends EDatabaseController {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Log the user with his nickname
+     * Retourne l'utilisateur si les informations de connection sont correct. Sinon null
      *
-     * @param userNickname {string}
-     * @param userPwd {string}
+     * @param array $args Tableau associtatif pour les différentes options de login. ATTENTION: LE MOT DE PASSE EST OBLIGATOIRE
      *
-     * @return User || null
+     * @return User||null
      */
     public function Login(array $args): ?User {
         $args += [
@@ -143,13 +142,13 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Register a new user
+     * Enregistre un nouvel utilisateur
      * 
-     * @param userEmail {string} New email
-     * @param userNickname {string} New nickname
-     * @param userPassword {string} New password
+     * @param string $userEmail Email
+     * @param string $userNickname Pseudo
+     * @param string $userPassword Mot de passe
      * 
-     * @return registerState {bool}
+     * @return bool État de l'enregistrement
      */
     public function RegisterNewUser(string $userEmail, string $userNickname, string $userPassword): bool {
         $registerQuery = <<<EX
@@ -183,12 +182,12 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Update the nickname by the user id
-     * 
-     * @param userId {int} Id of the user
-     * @param userNickname {string} New user nickname
-     * 
-     * @return updateState {bool}
+     * Met à jour le pseudo avec l'id de l'utilisateur
+     *
+     * @param int $userId Id de l'utilisateur
+     * @param string $userNickname Nouveau pseudo de l'utilisateur
+     *
+     * @return bool
      */
     public function UpdateNicknameById(int $userId, string $userNickname): bool {
         $updateQuery = <<<EX
@@ -217,12 +216,12 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Update the email by the user id
-     * 
-     * @param userId {int} Id of the user
-     * @param userEmail {string} New user email
-     * 
-     * @return updateState {bool}
+     * Met à jour l'email de l'utilisateur
+     *
+     * @param int $userId Id de l'utilisateur
+     * @param string $userEmail Nouvel email de l'utilisateur
+     *
+     * @return bool
      */
     public function UpdateEmailById(int $userId, string $userEmail): bool {
         $updateQuery = <<<EX
@@ -250,12 +249,12 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Update the password by the user id
-     * 
-     * @param userId {int} Id of the user
-     * @param userPassword {string} New user password
-     * 
-     * @return updateState {bool}
+     * Met à jour le mot de passe de l'utilisateur
+     *
+     * @param int $userId Id de l'utilisateur
+     * @param string $userPassword Nouveau mot de passe
+     *
+     * @return bool
      */
     public function UpdatePasswordById(int $userId, string $userPassword): bool {
         $updateQuery = <<<EX
@@ -285,12 +284,12 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Update the profile picture link of the user
+     * Met à jour le chemin de la photo de profil de l'utilisateur
      *
-     * @param int $userId Id of the user
-     * @param string $filePath Path of the new profile picture
+     * @param int $userId Id de l'utilisateur
+     * @param string $filePath Nouveau chemin de l'image de profil
      *
-     * @return void
+     * @return bool
      */
     public function UpdateProfilPictureById(int $userId, string $filePath): bool {
         $updateQuery = <<<EX
@@ -318,9 +317,9 @@ class UserController extends EDatabaseController {
     }
 
     /**
-     * Delete an user by his id
+     * Spprime un utilisateur
      *
-     * @param int $userId
+     * @param int $userId Id de l'utilisateur
      *
      * @return bool
      */
