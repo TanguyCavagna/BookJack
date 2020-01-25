@@ -28,11 +28,12 @@
             <div class="mb-8">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password" placeholder="******************">
+                <p class="hidden text-red-500 text-xs italic error-msg" id="errorPassword">The passwaord has to contain at least a capital, a lower case, a number nd 8 charcters.</p>
             </div>
             <div class="mb-10">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="verify-password">Verify password</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="verify-password" name="verify-password" type="password" placeholder="******************">
-                <p class="hidden text-red-500 text-xs italic error-msg">This password is not the same as the one above.</p>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="verifyPassword">Verify password</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="verifyPassword" name="verifyPassword" type="password" placeholder="******************">
+                <p class="hidden text-red-500 text-xs italic error-msg" id="errorDiffPassword">This password is not the same as the one above.</p>
             </div>
             <div class="mb-12">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="profile-picture">Profile picture</label>

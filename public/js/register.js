@@ -16,7 +16,7 @@ function register(event) {
     let username = $("#username").val();
     let mail = $("#mail").val();
     let password = $("#password").val();
-    let verifyPassword = $("#verify-password").val();
+    let verifyPassword = $("#verifyPassword").val();
 
     // processing
     if (username.length == 0) {
@@ -44,11 +44,11 @@ function register(event) {
     }
 
     if (verifyPassword.length == 0) {
-        $("#verify-password").css("border-color", "red");
-        $("#verify-password").focus();
+        $("#verifyPassword").css("border-color", "red");
+        $("#verifyPassword").focus();
         return;
     } else {
-        $("#verify-password").css("border-color", "");
+        $("#verifyPassword").css("border-color", "");
     }
 
     get_data("../App/Api/register.php", (data) => {
