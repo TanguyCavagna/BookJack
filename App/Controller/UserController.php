@@ -41,7 +41,7 @@ class UserController extends EDatabaseController {
      *
      * @return salt
      */
-    private function GetSalt($args) {
+    private function GetSalt(array $args): ?string {
         $args += [
             'userId' => null,
             'userEmail' => null,
@@ -88,7 +88,7 @@ class UserController extends EDatabaseController {
      *
      * @return User || null
      */
-    public function Login($args) {
+    public function Login(array $args): ?User {
         $args += [
             'userEmail' => null,
             'userNickname' => null,
@@ -151,7 +151,7 @@ class UserController extends EDatabaseController {
      * 
      * @return registerState {bool}
      */
-    public function RegisterNewUser($userEmail, $userNickname, $userPassword) {
+    public function RegisterNewUser(string $userEmail, string $userNickname, string $userPassword): bool {
         $registerQuery = <<<EX
             INSERT INTO `{$this->tableName}`({$this->fieldEmail}, {$this->fieldNickname}, {$this->fieldPassword}, {$this->fieldSalt}, {$this->fieldProfilPicture})
             VALUES(:userEmail, :userNickname, :userPassword, :userSalt, :userProfilPicture)
@@ -190,7 +190,7 @@ class UserController extends EDatabaseController {
      * 
      * @return updateState {bool}
      */
-    public function UpdateNicknameById($userId, $userNickname) {
+    public function UpdateNicknameById(int $userId, string $userNickname): bool {
         $updateQuery = <<<EX
             UPDATE `{$this->tableName}` 
             SET `{$this->fieldNickname}` = :userNickname 
@@ -224,7 +224,7 @@ class UserController extends EDatabaseController {
      * 
      * @return updateState {bool}
      */
-    public function UpdateEmailById($userId, $userEmail) {
+    public function UpdateEmailById(int $userId, string $userEmail): bool {
         $updateQuery = <<<EX
             UPDATE `{$this->tableName}` 
             SET `{$this->fieldEmail}` = :userEmail 
@@ -257,7 +257,7 @@ class UserController extends EDatabaseController {
      * 
      * @return updateState {bool}
      */
-    public function UpdatePasswordById($userId, $userPassword) {
+    public function UpdatePasswordById(int $userId, string $userPassword): bool {
         $updateQuery = <<<EX
             UPDATE `{$this->tableName}` 
             SET `{$this->fieldPassword}` = :userPassword
@@ -292,7 +292,7 @@ class UserController extends EDatabaseController {
      *
      * @return void
      */
-    public function UpdateProfilPictureById($userId, $filePath) {
+    public function UpdateProfilPictureById(int $userId, string $filePath): bool {
         $updateQuery = <<<EX
             UPDATE `{$this->tableName}`
             SET `{$this->fieldProfilPicture}` = :picturePath
@@ -324,7 +324,7 @@ class UserController extends EDatabaseController {
      *
      * @return bool
      */
-    public function DeleteById($userId): bool {
+    public function DeleteById(int $userId): bool {
         $updateQuery = <<<EX
             DELETE FROM `{$this->tableName}`
             WHERE `{$this->fieldId}` = :userId

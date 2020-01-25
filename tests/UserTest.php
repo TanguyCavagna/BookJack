@@ -29,7 +29,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider newUserProvider
      */
-    public function testRegisterNewUser($email, $nickname, $pass, $expected): void {
+    public function testRegisterNewUser(string $email, string $nickname, string $pass, bool $expected): void {
         // Assignation
 
         // Actions
@@ -42,7 +42,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider loginWithEmailProvider
      */
-    public function testLoginWithEmail($email, $pass): void {
+    public function testLoginWithEmail(string $email, string $pass): void {
         // Assignation
         
         // Actions
@@ -55,7 +55,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider loginWithNicknameProvider
      */
-    public function testLoginWithNickname($nickname, $pass): void {
+    public function testLoginWithNickname(string $nickname, string $pass): void {
         // Assignation
         
         // Actions
@@ -68,7 +68,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider loginWithEmailProvider
      */
-    public function testUpdateNicknameById($email, $pass): void {
+    public function testUpdateNicknameById(string $email, string $pass): void {
         // Assignation
         $logged = self::$userController->Login(['userEmail' => $email, 'userPwd' => $pass]);
 
@@ -82,7 +82,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider loginWithEmailProvider
      */
-    public function testUpdateEmailById($email, $pass): void {
+    public function testUpdateEmailById(string $email, string $pass): void {
         // Assignation
         $logged = self::$userController->Login(['userEmail' => $email, 'userPwd' => $pass]);
 
@@ -96,7 +96,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider loginWithEmailAfterEmailChangedProvider
      */
-    public function testUpdatePasswordById($email, $pass): void {
+    public function testUpdatePasswordById(string $email, string $pass): void {
         // Assignation
         $logged = self::$userController->Login(['userEmail' => $email, 'userPwd' => $pass]);
 
@@ -110,7 +110,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider loginWithEmailAfterEmailAndPassChangedProvider
      */
-    public function testUpdateProfilPictureById($email, $pass): void {
+    public function testUpdateProfilPictureById(string $email, string $pass): void {
         // Assignation
         $logged = self::$userController->Login(['userEmail' => $email, 'userPwd' => $pass]);
 
@@ -124,7 +124,7 @@ class UserTest extends TestCase {
     /**
      * @dataProvider loginWithEmailAfterEmailAndPassChangedProvider
      */
-    public function testDeleteById($email, $pass): void {
+    public function testDeleteById(string $email, string $pass): void {
         // Assignation
         $logged = self::$userController->Login(['userEmail' => $email, 'userPwd' => $pass]);
 
