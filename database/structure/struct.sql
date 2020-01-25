@@ -247,7 +247,7 @@ CREATE TABLE `user` (
   `user_nickname` varchar(45) NOT NULL,
   `user_password` varchar(64) NOT NULL,
   `user_salt` varchar(64) NOT NULL,
-  `user_profil_picture` longblob DEFAULT NULL,
+  `user_profil_picture` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
