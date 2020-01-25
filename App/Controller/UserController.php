@@ -8,7 +8,7 @@
 // Requirements
 require_once __DIR__ . '/DatabaseController.php';
 require_once __DIR__ . '/LogController.php';
-require_once '../Model/User.php';
+require_once __DIR__ . '/../Model/User.php';
 
 /**
  * Controll of the user
@@ -135,7 +135,7 @@ class UserController extends EDatabaseController {
             
             return $result !== false > 0 ? new User($result[$this->fieldId], $result[$this->fieldEmail], $result[$this->fieldNickname], $result[$this->fieldProfilPicture]) : null;
         } catch (PDOException $e) {
-            LogController::Error('Error while login', $e::getMessage());
+            LogController::Error('Error while login', $e->getMessage());
 
             return null;
         }
@@ -172,11 +172,11 @@ class UserController extends EDatabaseController {
             $requestRegister->bindParam(':userProfilPicture', $profilPicture);
             $requestRegister->execute();
             
-            $requestRegister->commit();
+            $this::commit();
             return true;
         } catch (PDOException $e) {
-            $requestRegister->rollBack();
-            LogController::Error('Error while register a new user', $e::getMessage());
+            $this::rollBack();
+            LogController::Error('Error while register a new user', $e->getMessage());
 
             return false;
         }
@@ -192,7 +192,7 @@ class UserController extends EDatabaseController {
      */
     public function UpdateNicknameById($userId, $userNickname) {
         $updateQuery = <<<EX
-            UPDATE FROM `{$this->tableName}` 
+            UPDATE `{$this->tableName}` 
             SET `{$this->fieldNickname}` = :userNickname 
             WHERE `{$this->fieldId}` = :userId
         EX;
@@ -205,11 +205,12 @@ class UserController extends EDatabaseController {
             $requestUpdate->bindParam(':userId', $userId);
             $requestUpdate->execute();
 
-            $requestUpdate->commit();
+            $this::commit();
+
             return true;
         } catch (PDOException $e) {
-            $requestUpdate->rollBack();
-            LogController::Error('Error while updating nickname', $e::getMessage());
+            $this::rollBack();
+            LogController::Error('Error while updating nickname', $e->getMessage());
 
             return false;
         }
@@ -225,7 +226,7 @@ class UserController extends EDatabaseController {
      */
     public function UpdateEmailById($userId, $userEmail) {
         $updateQuery = <<<EX
-            UPDATE FROM `{$this->tableName}` 
+            UPDATE `{$this->tableName}` 
             SET `{$this->fieldEmail}` = :userEmail 
             WHERE `{$this->fieldId}` = :userId
         EX;
@@ -238,11 +239,11 @@ class UserController extends EDatabaseController {
             $requestUpdate->bindParam(':userId', $userId);
             $requestUpdate->execute();
 
-            $requestUpdate->commit();
+            $this::commit();
             return true;
         } catch (PDOException $e) {
-            $requestUpdate->rollBack();
-            LogController::Error('Error while updating email', $e::getMessage());
+            $this::rollBack();
+            LogController::Error('Error while updating email', $e->getMessage());
 
             return false;
         }
@@ -258,10 +259,13 @@ class UserController extends EDatabaseController {
      */
     public function UpdatePasswordById($userId, $userPassword) {
         $updateQuery = <<<EX
-            UPDATE FROM `{$this->tableName}` 
+            UPDATE `{$this->tableName}` 
             SET `{$this->fieldPassword}` = :userPassword
             WHERE `{$this->fieldId}` = :userId
         EX;
+
+        $salt = $this->GetSalt(['userId' => $userId]);
+        $userPassword = hash('sha256', $userPassword . $salt);
         
         try {
             $this::beginTransaction();
@@ -270,11 +274,74 @@ class UserController extends EDatabaseController {
             $requestUpdate->bindParam(':userId', $userId);
             $requestUpdate->execute();
 
-            $requestUpdate->commit();
+            $this::commit();
+            return true;
+        } catch (PDOException $e) {
+            $this::rollBack();
+            LogController::Error('Error while updating password', $e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
+     * Update the profile picture link of the user
+     *
+     * @param int $userId Id of the user
+     * @param string $filePath Path of the new profile picture
+     *
+     * @return void
+     */
+    public function UpdateProfilPictureById($userId, $filePath) {
+        $updateQuery = <<<EX
+            UPDATE `{$this->tableName}`
+            SET `{$this->fieldProfilPicture}` = :picturePath
+            WHERE `{$this->fieldId}` = :userId
+        EX;
+
+        try {
+            $this::beginTransaction();
+            $requestUpdate = $this::getInstance()->prepare($updateQuery);
+            $requestUpdate->bindParam(':picturePath', $filePath);
+            $requestUpdate->bindParam(':userId', $userId);
+            $requestUpdate->execute();
+
+            $this::commit();
+
+            return true;
+        } catch (PDOException $e) {
+            $this::rollBack();
+            LogController::Error('Error while updating profile picture', $e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
+     * Delete an user by his id
+     *
+     * @param int $userId
+     *
+     * @return bool
+     */
+    public function DeleteById($userId): bool {
+        $updateQuery = <<<EX
+            DELETE FROM `{$this->tableName}`
+            WHERE `{$this->fieldId}` = :userId
+        EX;
+
+        try {
+            $this::beginTransaction();
+            $requestUpdate = $this::getInstance()->prepare($updateQuery);
+            $requestUpdate->bindParam(':userId', $userId);
+            $requestUpdate->execute();
+
+            $this::commit();
+            
             return true;
         } catch (PDOException $e) {
             $requestUpdate->rollBack();
-            LogController::Error('Error while updating password', $e::getMessage());
+            LogController::Error('Error while deleting user', $e->getMessage());
 
             return false;
         }
