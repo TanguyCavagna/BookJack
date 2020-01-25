@@ -52,6 +52,17 @@ function get_data(url, callback, params = {}, async) {
                         $('#password').addClass('border-red-500');
                         $('.error-msg').removeClass('hidden');
                         break;
+                        case 3:
+                            break;
+                        case 4: // register different passwords
+                        $("#password").addClass('border-red-500');
+                        $("#verifyPassword").addClass('border-red-500');
+                        $("#errorDiffPassword").removeClass('hidden');
+                        break;
+                    case 5: // register password doesn't fit to the regex
+                        $("#password").addClass('border-red-500');
+                        $("#errorPassword").removeClass('hidden');
+                        break;
                     default:
                         msg = data.Message;
                         break;
