@@ -14,7 +14,7 @@
     <?php require_once './includes/nav.php'; ?>
 
     <div class="mx-auto w-6/12 max-w-xs mt-24">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" enctype="multipart/form-data">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text" placeholder="Username">
@@ -37,7 +37,7 @@
             </div>
             <div class="mb-12">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="profile-picture">Profile picture</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profile-picture" name="profile-picture" type="file">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profilePicture" name="profile-picture" type="file">
             </div>
             <div class="flex items-center justify-between">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" type="submit" id="register">

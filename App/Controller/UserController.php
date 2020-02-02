@@ -150,7 +150,7 @@ class UserController extends EDatabaseController {
      * 
      * @return bool État de l'enregistrement
      */
-    public function RegisterNewUser(string $userEmail, string $userNickname, string $userPassword): bool {
+    public function RegisterNewUser(string $userEmail, string $userNickname, string $userPassword, string $profilPicture): bool {
         $registerQuery = <<<EX
             INSERT INTO `{$this->tableName}`({$this->fieldEmail}, {$this->fieldNickname}, {$this->fieldPassword}, {$this->fieldSalt}, {$this->fieldProfilPicture})
             VALUES(:userEmail, :userNickname, :userPassword, :userSalt, :userProfilPicture)
@@ -158,17 +158,16 @@ class UserController extends EDatabaseController {
 
         $salt = hash('sha256', microtime());
         $userPassword = hash('sha256', $userPassword . $salt);
-        $profilPicture = null;
 
         try {
             $this::beginTransaction();
 
             $requestRegister = $this::getInstance()->prepare($registerQuery);
-            $requestRegister->bindParam(':userEmail', $userEmail);
-            $requestRegister->bindParam(':userNickname', $userNickname);
-            $requestRegister->bindParam(':userPassword', $userPassword);
-            $requestRegister->bindParam(':userSalt', $salt);
-            $requestRegister->bindParam(':userProfilPicture', $profilPicture);
+            $requestRegister->bindParam(':userEmail', $userEmail, PDO::PARAM_STR);
+            $requestRegister->bindParam(':userNickname', $userNickname, PDO::PARAM_STR);
+            $requestRegister->bindParam(':userPassword', $userPassword, PDO::PARAM_STR);
+            $requestRegister->bindParam(':userSalt', $salt, PDO::PARAM_STR);
+            $requestRegister->bindParam(':userProfilPicture', $profilPicture, PDO::PARAM_STR);
             $requestRegister->execute();
             
             $this::commit();

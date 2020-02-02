@@ -17,7 +17,8 @@ function register(event) {
     let mail = $("#mail").val();
     let password = $("#password").val();
     let verifyPassword = $("#verifyPassword").val();
-
+    let img = $("#profilePicture").prop('files').length > 1 ? $('#profilePicture').prop('files')[0] : null;
+    
     // processing
     if (username.length == 0) {
         $("#username").css("border-color", "red");
@@ -53,5 +54,5 @@ function register(event) {
 
     get_data("../App/Api/register.php", (data) => {
         window.location = "./login.php";
-    }, {"username":username, "mail":mail, "password":password, "verifyPassword":verifyPassword}, false);
+    }, {"username":username, "mail":mail, "password":password, "verifyPassword":verifyPassword, img}, false);
 }

@@ -32,6 +32,8 @@ function get_data(url, callback, params = {}, async) {
         data: dp,
         dataType: 'json',
         async: async,
+        contentType: false,
+        processData: false,
         success: function (data) {
             var msg = '';
            // console.log(data);
